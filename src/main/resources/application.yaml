@@ -5,7 +5,7 @@ spring:
   application:
     name: config-server # Industry standard: kebab-case, lowercase
   profiles:
-    active: native,dev # Change to 'git' when you want to use the remote repository
+    active: git # Switched to git profile to fetch configs from GitHub
 
 ---
 spring:
