@@ -1,21 +1,38 @@
+server:
+  port: 9000
+
 spring:
   application:
-    name: Config-Server
-
+    name: config-server # Industry standard: kebab-case, lowercase
   profiles:
-    active: native,dev
+    active: native,dev # Change to 'git' when you want to use the remote repository
 
+---
+spring:
+  config:
+    activate:
+      on-profile: "native"
+  cloud:
+    config:
+      server:
+        native:
+          search-locations:
+            # Standard formatting using arrays for lists
+            - classpath:/configurations
+            - classpath:/configurations/platform
+            - classpath:/configurations/services
+---
+spring:
+  config:
+    activate:
+      on-profile: "git"
   cloud:
     config:
       server:
         git:
           uri: https://github.com/LakhiniVoshadee/Capstone-Project-Configurations.git
-          search-paths: platform,services
-        native:
-          search-locations:
-            - classpath:/configurations
-            - classpath:/configurations/platform
-            - classpath:/configurations/services
+          search-paths:
+            - platform
+            - services
+          clone-on-start: true # Good practice: Fails fast on startup if git repo is unreachable
 
-server:
-  port: 9000
